@@ -1,6 +1,7 @@
-import pandas as pd
+import time
 
 def criar_matriz_de_arquivo(caminho_do_arquivo):
+    print ("começou a construir a matriz")
     with open(caminho_do_arquivo, 'r') as arquivo:
         # Ler a primeira linha para obter as dimensões da matriz
         linhas, colunas = map(int, arquivo.readline().strip().split())
@@ -27,21 +28,17 @@ def criar_matriz_de_arquivo(caminho_do_arquivo):
 
     return matriz
 
-# Usar a função para ler um dos arquivos e imprimir a matriz resultante
-caminho_do_arquivo = 'casos-cohen-noite/casoG50.txt'  # Exemplo com o primeiro arquivo
-matriz = criar_matriz_de_arquivo(caminho_do_arquivo)
-#df = pd.DataFrame(matriz)
-#salvar = df.to_csv('matriz.csv', index=False, header=False)
 
-matriz = criar_matriz_de_arquivo(caminho_do_arquivo)
-
-
+#########################################
 def encontrar_inicio(matriz):
+    print ("começou a encontrar o inicio")
     for i, linha in enumerate(matriz):
         if matriz[i][0] == '-':
             return i              
-
+########################################
+        
 def percorrer_matriz(matriz):
+    print ("começou a percorrer")
     total = 0
     x = encontrar_inicio(matriz)
     y = 0 
@@ -50,9 +47,10 @@ def percorrer_matriz(matriz):
     Cords = []
     straux = ''
     
+    print ("começou a percorrer a matriz WHILE")
     while True:
         elemento_atual = matriz[x][y]
-        print(f'Posição atual: ({x}, {y}) ||| Elemento: {elemento_atual} ||| Direção: {direcao}')
+        #print(f'Posição atual: ({x}, {y}) ||| Elemento: {elemento_atual} ||| Direção: {direcao}')
 
         if elemento_atual == "#":
             print('Encontrado #, finalizando...')
@@ -63,7 +61,7 @@ def percorrer_matriz(matriz):
             straux += elemento_atual
             # Verificar se o número já foi encontrado
             if [x,y] not in Cords:
-                print(f'Encontrado número: {elemento_atual} ||| Total acumulado: {total}')
+                #print(f'Encontrado número: {elemento_atual} ||| Total acumulado: {total}')
                 Cords.append([x,y])
         else:
             if straux is not '':
@@ -118,7 +116,12 @@ def percorrer_matriz(matriz):
     print (f'Dimensões da matriz: {xMatriz} x {yMatriz}')
     return total
 
+inicio = time.time()
+caminho_do_arquivo = 'casos-cohen-noite/casoG2000.txt'  # Exemplo com o primeiro arquivo
+matriz = criar_matriz_de_arquivo(caminho_do_arquivo)
 total_recolhido = percorrer_matriz(matriz)
 print(f"Total: = {total_recolhido}")
+fim = time.time()
+print(f'Tempo de execução: {fim - inicio}')
 
 
